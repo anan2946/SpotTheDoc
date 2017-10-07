@@ -1,5 +1,5 @@
 # SpotTheDoc
-Project repo for CSCI-5448-001B.
+Project repository for CSCI-5448-001B.
 
 # Team Members
 
