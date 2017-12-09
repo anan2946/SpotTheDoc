@@ -3,60 +3,36 @@ import java.sql.Time;
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class Appointment {
 
     /**
      * Default constructor
      */
-    public Appointment() {
+    public Appointment(String userName, Time time, Date date) {
+        this.setDate(date);
+        this.setStartTime(time);
+        this.setStatus(status.Pending);
+        randomAppointmentID = randomAppointmentID + 1;
+        this.setAppointmentId(randomAppointmentID);
+        this.doctorUserName;
+        this.patientUserName;
+        this.endTime;
     }
 
     /**
-     * 
+     *
      */
     private String doctorUserName;
-
-    /**
-     * 
-     */
     private Time startTime;
-
-    /**
-     * 
-     */
     private Time endTime;
-
-    /**
-     * 
-     */
     private Date date;
-
-    /**
-     * 
-     */
     private Status status;
-
-    /**
-     * 
-     */
     private Integer appointmentId;
-
-    /**
-     * 
-     */
     private Record record;
-
-    /**
-     * 
-     */
     public String patientUserName;
-
-
-
-
-
+    private static Integer randomAppointmentID = 0;
 
     /**
      * @return
@@ -71,14 +47,28 @@ public class Appointment {
      */
     public String getDoctorUserName() {
         // TODO implement here
-        return "";
+        return doctorUserName;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setDoctorUserName(String value) {
+        // TODO implement here
+
+    }
+
+    public String getPatientUserName() {
+        // TODO implement here
+        return patientUserName;
+    }
+
+    /**
+     * @param value
+     * @return
+     */
+    public void setPatientUserName(String value) {
         // TODO implement here
 
     }
@@ -88,16 +78,16 @@ public class Appointment {
      */
     public Time getStartTime() {
         // TODO implement here
-        return null;
+        return startTime;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setStartTime(Time value) {
         // TODO implement here
-
+        this.startTime = value;
     }
 
     /**
@@ -105,11 +95,11 @@ public class Appointment {
      */
     public Time getEndTime() {
         // TODO implement here
-        return null;
+        return endTime;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setEndTime(Time value) {
@@ -122,16 +112,16 @@ public class Appointment {
      */
     public Date getDate() {
         // TODO implement here
-        return null;
+        return date;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setDate(Date value) {
         // TODO implement here
-
+        this.date = value;
     }
 
     /**
@@ -139,16 +129,16 @@ public class Appointment {
      */
     public Status getStatus() {
         // TODO implement here
-        return null;
+        return status;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setStatus(Status value) {
         // TODO implement here
-
+        this.status = value;
     }
 
     /**
@@ -156,16 +146,16 @@ public class Appointment {
      */
     public Integer getAppointmentId() {
         // TODO implement here
-        return null;
+        return appointmentId;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setAppointmentId(Integer value) {
         // TODO implement here
-
+        this.appointmentId = value;
     }
 
     /**
@@ -173,16 +163,16 @@ public class Appointment {
      */
     public Record getRecord() {
         // TODO implement here
-        return null;
+        return record;
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setRecord(Record value) {
         // TODO implement here
-
+        record = value;
     }
 
 }

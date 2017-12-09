@@ -13,13 +13,14 @@ public class Doctor extends User implements Observer {
     public Doctor(String password, String userName, Address address, ArrayList<String> specialization, String contact, String name, ArrayList<Time> officehours) {
         //addDoctorDetails(address, specialization, contact, name, officehours);
         setPassword(password);
-        setUserName(userName);
+        setuserName(userName);
         setAddress(address);
         setSpeciality(specialization);
         setPhoneNo(contact);
         setName(name);
         setOfficeHours(officehours);
         setRole(RoleType.Doctor);
+
     }
 
     /**
@@ -30,9 +31,12 @@ public class Doctor extends User implements Observer {
     private ArrayList<String> speciality;
     private Address address;
     private ArrayList<Time> officeHours;
-    private ArrayList<Appointment> AppointmentList;
+    private ArrayList<Appointment> appointmentList;
     private static ArrayList<Doctor> doctorList;
     public ArrayList<Appointment> observerState;
+
+    private static Subject subject;
+    private static RecordController recordControllerObject;
 
     /**
      * @param date
@@ -49,9 +53,16 @@ public class Doctor extends User implements Observer {
      * @param appointmentId
      * @return
      */
-    public void addPatientRecord(String comment, ArrayList<String> Prescription, Integer appointmentId) {
+    public void addPatientRecord(String comment, ArrayList<String> prescription, Integer appointmentId) {
         // TODO implement here
-
+        recordControllerObject.addComment(comment);
+        recordControllerObject.addPrescription(prescription);
+        for (Appointment appointment : AppointmentController.appointmentList) {
+            if (Objects.equals(appointmentId, appointment.getAppointmentId())) {
+                int appointmentIndex = AppointmentController.appointmentList.indexOf(appointment);
+                AppointmentController.appointmentList.get(appointmentIndex).setRecord(value); 
+            }
+        }
     }
 
     /**
@@ -62,10 +73,16 @@ public class Doctor extends User implements Observer {
      * @param officehours
      * @return
      */
-    public static void addDoctorDetails(String password, String userName, Address address, ArrayList<String> specialization, String contact, String name, ArrayList<Time> officehours) {
+    public static Boolean addDoctorDetails(String password, String userName, Address address, ArrayList<String> specialization, String contact, String name, ArrayList<Time> officehours) {
         // TODO implement here
-        doctorList.add(new Doctor(password, userName, address, specialization, contact, name, officehours));
-
+        if (User.checkuserNameAvailability(userName)) {
+            Doctor d = new Doctor(password, userName, address, specialization, contact, name, officehours);
+            doctorList.add(d);
+            subject.attach(d);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -73,15 +90,20 @@ public class Doctor extends User implements Observer {
      */
     public ArrayList<Doctor> getAllDoctors() {
         // TODO implement here
-        return null;
+        return doctorList;
     }
 
     /**
      * @param userName
      * @return
      */
-    public static Doctor getObjectByUserName(String userName) {
+    public static Doctor getObjectByuserName(String userName) {
         // TODO implement here
+        for (Doctor doctor : getDoctorList()) {
+            if (userName.equals(doctor.getuserName())) {
+                return doctor;
+            }
+        }
         return null;
     }
 
@@ -99,7 +121,13 @@ public class Doctor extends User implements Observer {
      */
     public static ArrayList<Doctor> getDoctorByName(String name) {
         // TODO implement here
-        return null;
+        ArrayList<Doctor> returnDoctorList = new ArrayList<Doctor>();
+        for (Doctor doctor : getDoctorList()) {
+            if (name.equals(doctor.getName())) {
+                returnDoctorList.add(doctor);
+            }
+        }
+        return returnDoctorList;
     }
 
     /**
@@ -108,7 +136,13 @@ public class Doctor extends User implements Observer {
      */
     public static ArrayList<Doctor> getDoctorByLocation(String location) {
         // TODO implement here
-        return null;
+        ArrayList<Doctor> returnDoctorList = new ArrayList<Doctor>();
+        for (Doctor doctor : getDoctorList()) {
+            if (location.equals(doctor.getAddress().getNeighbourhoodLocation())) {
+                returnDoctorList.add(doctor);
+            }
+        }
+        return returnDoctorList;
     }
 
     /**
@@ -117,7 +151,13 @@ public class Doctor extends User implements Observer {
      */
     public static ArrayList<Doctor> getDoctorBySpecialization(String specialization) {
         // TODO implement here
-        return null;
+        ArrayList<Doctor> returnDoctorList = new ArrayList<Doctor>();
+        for (Doctor doctor : getDoctorList()) {
+            if (specialization.equals(doctor.getSpeciality())) {
+                returnDoctorList.add(doctor);
+            }
+        }
+        return returnDoctorList;
     }
 
     /**
@@ -129,7 +169,7 @@ public class Doctor extends User implements Observer {
     }
 
     /**
-     * @return
+     *
      */
     public void removeFromList() {
         // TODO implement here
@@ -137,7 +177,7 @@ public class Doctor extends User implements Observer {
     }
 
     /**
-     * @return
+     *
      */
     public void save() {
         // TODO implement here
@@ -149,12 +189,12 @@ public class Doctor extends User implements Observer {
      */
     public String getName() {
         // TODO implement here
-        return "";
+        return name;
     }
 
     /**
      * @param value
-     * @return
+     *
      */
     public void setName(String value) {
         // TODO implement here
@@ -166,12 +206,12 @@ public class Doctor extends User implements Observer {
      */
     public String getPhoneNo() {
         // TODO implement here
-        return "";
+        return phoneNo;
     }
 
     /**
      * @param value
-     * @return
+     *
      */
     public void setPhoneNo(String value) {
         // TODO implement here
@@ -183,12 +223,12 @@ public class Doctor extends User implements Observer {
      */
     public ArrayList<String> getSpeciality() {
         // TODO implement here
-        return null;
+        return speciality;
     }
 
     /**
      * @param value
-     * @return
+     *
      */
     public void setSpeciality(ArrayList<String> value) {
         // TODO implement here
@@ -200,12 +240,12 @@ public class Doctor extends User implements Observer {
      */
     public Address getAddress() {
         // TODO implement here
-        return null;
+        return address;
     }
 
     /**
      * @param value
-     * @return
+     *
      */
     public void setAddress(Address value) {
         // TODO implement here
@@ -213,16 +253,16 @@ public class Doctor extends User implements Observer {
     }
 
     /**
-     * @return
+     *
      */
-    public void getOfficeHours() {
+    public ArrayList<Time> getOfficeHours() {
         // TODO implement here
-
+        return officeHours;
     }
 
     /**
      * @param value
-     * @return
+     *
      */
     //public void setOfficeHours(void value) {
     public void setOfficeHours(ArrayList<Time> value) {
@@ -235,7 +275,7 @@ public class Doctor extends User implements Observer {
      */
     public ArrayList<Appointment> getAppointmentList() {
         // TODO implement here
-        return null;
+        return appointmentList;
     }
 
     /**
@@ -243,16 +283,16 @@ public class Doctor extends User implements Observer {
      */
     public static ArrayList<Doctor> getDoctorList() {
         // TODO implement here
-        return null;
+        return doctorList;
     }
 
     /**
-     * @param value
-     * @return
+     * @param appointment
+     *
      */
-    public void updateAppointmentList(Doctor value) {
+    public void addToAppointmentList(Appointment appointment) {
         // TODO implement here
-
+        appointmentList.add(appointment);
     }
 
     /**
@@ -270,7 +310,10 @@ public class Doctor extends User implements Observer {
      */
     public void updateAppointmentList(Appointment appointment) {
         // TODO implement here
+        if (appointment.getDoctorUserName().equals(this.getuserName())) {
+            observerState.add(appointment);
+        }
+        //if the caller username is the same as the doctor username on the appointment, then update observerstate
 
     }
-
 }

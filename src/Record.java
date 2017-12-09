@@ -12,16 +12,8 @@ public class Record {
     public Record() {
     }
 
-    /**
-     * 
-     */
     private ArrayList<String> prescription;
-
-    /**
-     * 
-     */
     private String comments;
-
 
     /**
      * @return
@@ -35,7 +27,7 @@ public class Record {
      * @param value 
      * @return
      */
-    public void appendPrescription(String value) {
+    public void appendPrescription(ArrayList<String> prescription) {
         // TODO implement here
 
     }

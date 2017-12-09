@@ -2,10 +2,11 @@
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class RecordController {
 
+    
     /**
      * Default constructor
      */
@@ -13,28 +14,28 @@ public class RecordController {
     }
 
     /**
-     * @param comment 
+     * @param comment
      * @return
      */
-    public void addComment(String comment) {
+    public void addComment(String comment, Appointment appointment) {
         // TODO implement here
-
+        appointment.getRecord().setComments(comment);
     }
 
     /**
-     * @param prescription 
+     * @param prescription
      * @return
      */
-    public void addPrescription(ArrayList<String> prescription) {
+    public void addPrescription(ArrayList<String> prescription, Appointment appointment) {
         // TODO implement here
-
+        appointment.getRecord().appendPrescription(prescription); 
     }
 
     /**
-     * @param username 
+     * @param userName
      * @return
      */
-    public Record viewPatientRecord(String username) {
+    public Record viewPatientRecord(String userName) {
         // TODO implement here
         return null;
     }

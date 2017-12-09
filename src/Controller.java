@@ -6,16 +6,15 @@ import java.util.*;
  *
  */
 public class Controller {
-/*
-    private ArrayList<Doctor> doctorobject;
-    private ArrayList<Patient> patientobject;
-*/
+
     /**
      * Default constructor
      */
+    private static AppointmentController appointmentControllerObject;
+    private static RecordController recordControllerObject;
+    
     public Controller() {
-        /*doctorobject = new ArrayList<Doctor>();
-        patientobject = new ArrayList<Patient>();*/
+
     }
 
     /**
@@ -28,11 +27,14 @@ public class Controller {
      * @param officehours
      * @return
      */
-// public String registerDoctor(String password, String name, String userName, Address address, ArrayList <String> specialization, String contact, <Time, Time> officehours) 
     public String registerDoctor(String password, String name, String userName, Address address, ArrayList<String> specialization, String contact, ArrayList<Time> officehours) {
-        Doctor.addDoctorDetails(password, userName, address, specialization, contact, name, officehours);
-        //doctoroject.add(new Doctor(address, specialization, contact, name, officehours));
-        return "";
+        String content;
+        if (Doctor.addDoctorDetails(password, userName, address, specialization, contact, name, officehours)) {
+            content = "Registered successfully";
+        } else {
+            content = "Choose another userName";
+        }
+        return content;
     }
 
     /**
@@ -42,9 +44,13 @@ public class Controller {
      * @return
      */
     public String registerPatient(String password, String name, String userName) {
-    Patient.addPatientDetails(name, userName, password);
-//patientobject.add(new Patient(name, userName, password));
-        return "";
+        String content;
+        if (Patient.addPatientDetails(name, userName, password)) {
+            content = "Registered successfully";
+        } else {
+            content = "Choose another userName";
+        }
+        return content;
     }
 
     /**
@@ -52,25 +58,9 @@ public class Controller {
      * @param password
      * @return
      */
-    public void login(String userName, String password) {
+    public RoleType login(String userName, String password) {
         // TODO implement here
-        /*for (Doctor doctor : doctorobject) {
-            if (userName.equals(doctor.getUserName()))
-            {
-                Doctor loginObject = doctor;
-                break;
-            }
-        }
-        for (Patient patient: patientobject)
-        {
-            if (userName.equals(patient.getUserName()))
-            {
-                Patient loginObject = patient;
-                break;
-            }
-        }
-        loginObject.*/
-        
+        return User.login(userName, password);
     }
 
     /**
@@ -79,6 +69,9 @@ public class Controller {
      */
     public void deleteDoctor(String userName) {
         // TODO implement here
+        Doctor doctor = Doctor.getObjectByuserName(userName);
+        Admin admin = Admin.getInstance();
+        admin.deleteDoctor(doctor);
 
     }
 
@@ -88,7 +81,9 @@ public class Controller {
      */
     public void approveDoctorRequest(String userName) {
         // TODO implement here
-
+        Doctor doctor = Doctor.getObjectByuserName(userName);
+        Admin admin = Admin.getInstance();
+        admin.approveDoctor(doctor);
     }
 
     /**
@@ -96,26 +91,29 @@ public class Controller {
      */
     public ArrayList<Doctor> viewAllDoctors() {
         // TODO implement here
-        return null;
+        Admin admin = Admin.getInstance();
+        return admin.viewAllDoctors();
     }
 
     /**
      * @param userName
      * @return
      */
-    public String viewDoctorProfile(String userName) {
+    public Doctor viewDoctorProfile(String userName) {
         // TODO implement here
-        return "";
+        Doctor doctor = Doctor.getObjectByuserName(userName);
+        return doctor;
     }
 
     /**
-     * @param Username
+     * @param userName
      * @param date
      * @return
      */
-    public String viewAvailableSlots(String Username, Date date) {
+    public ArrayList<Time> viewAvailableSlots(String userName, Date date) {
         // TODO implement here
-        return "";
+        Doctor doctor = Doctor.getObjectByuserName(userName);
+        return doctor.getAvailableSlot(date);
     }
 
     /**
@@ -124,9 +122,24 @@ public class Controller {
      * @param location
      * @return
      */
-    public Doctor searchDoctor(String name, String specialization, String location) {
+    public ArrayList<Doctor> searchDoctor(String name, String specialization, String location) {
         // TODO implement here
-        return null;
+        ArrayList<Doctor> doctorsMatched = new ArrayList<Doctor>();
+        ArrayList<Doctor> doctors;
+        SearchController searchObject = new SearchController();
+        doctors = searchObject.searchByName(name);
+        for (Doctor doctor : doctors) {
+            doctorsMatched.add(doctor);
+        }
+        doctors = searchObject.searchByLocation(location);
+        for (Doctor doctor : doctors) {
+            doctorsMatched.add(doctor);
+        }
+        doctors = searchObject.searchBySpecialisation(specialization);
+        for (Doctor doctor : doctors) {
+            doctorsMatched.add(doctor);
+        }
+        return doctorsMatched;
     }
 
     /**
@@ -135,9 +148,13 @@ public class Controller {
      * @param appointmentId
      * @return
      */
-    public void updatePatientRecord(String comment, ArrayList<String> Prescription, Integer appointmentId) {
+    public void updatePatientRecord(String comment, ArrayList<String> prescription, Integer appointmentId) {
         // TODO implement here
-
+        Record r = new Record();
+        Appointment appObject = Patient.getObjectByID(appointmentId);
+        appObject.setRecord(r);
+        recordControllerObject.addComment(comment, appObject);
+        recordControllerObject.addPrescription(prescription, appObject);
     }
 
     /**
@@ -148,7 +165,8 @@ public class Controller {
      */
     public String scheduleAppointment(String userName, Time time, Date date) {
         // TODO implement here
-        return "";
+        appointmentControllerObject.createAppointment(userName, time, date);
+        return "Appointment Created successfully - waiting for doctor approval.";
     }
 
 }

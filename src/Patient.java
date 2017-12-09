@@ -4,7 +4,7 @@ import java.util.*;
 /**
  *
  */
-public class Patient extends User implements Observer {
+public class Patient extends User {
 
     /**
      * Default constructor
@@ -13,41 +13,34 @@ public class Patient extends User implements Observer {
         //addPatientDetails(name, userName, password);
         setName(name);
         setRole(RoleType.Patient);
-        setUserName(userName);
+        setuserName(userName);
         setPassword(password);
     }
 
-    /**
-     *
-     */
     private String name;
-
-    /**
-     *
-     */
     private ArrayList<Appointment> AppointmentList;
-
-    /**
-     *
-     */
     private static ArrayList<Patient> patientList;
-
-    /**
-     *
-     */
-    public ArrayList<Appointment> observerState;
 
     /**
      * @param userName
      * @return
      */
-    public static void addPatientDetails(String name, String userName, String password) {
-        patientList.add(new Patient(name, userName, password));
-        
+    public static Boolean addPatientDetails(String name, String userName, String password) {
+        if (User.checkuserNameAvailability(userName)) {
+            patientList.add(new Patient(name, userName, password));
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public static Patient getObjectByUserName(String userName) {
+    public static Patient getObjectByuserName(String userName) {
         // TODO implement here
+        for (Patient patient : getPatientList()) {
+            if (userName.equals(patient.getuserName())) {
+                return patient;
+            }
+        }
         return null;
     }
 
@@ -127,13 +120,4 @@ public class Patient extends User implements Observer {
         return null;
     }
 
-    /**
-     * @param appointment
-     * @return
-     */
-    /*    public void updateAppointmentList(Appointment appointment) {
-        // TODO implement here
-        return null;
-    }
-     */
 }

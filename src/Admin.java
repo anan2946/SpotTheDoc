@@ -9,7 +9,7 @@ public class Admin extends User {
     /**
      * Default constructor
      */
-    public Admin() {
+    protected Admin() {
     }
 
     /**
@@ -32,7 +32,7 @@ public class Admin extends User {
     /**
      * @return
      */
-    public Doctor viewAllDoctors() {
+    public ArrayList<Doctor> viewAllDoctors() {
         // TODO implement here
         return null;
     }
@@ -59,7 +59,10 @@ public class Admin extends User {
      */
     public static Admin getInstance() {
         // TODO implement here
-        return null;
+        if(admin == null){
+            admin = new Admin();
+        }
+        return admin;
     }
 
 }

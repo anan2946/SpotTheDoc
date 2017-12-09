@@ -2,7 +2,7 @@
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class SearchController {
 
@@ -13,30 +13,30 @@ public class SearchController {
     }
 
     /**
-     * @param name 
+     * @param name
      * @return
      */
-    public Doctor searchByName(String name) {
+    public ArrayList<Doctor> searchByName(String name) {
         // TODO implement here
-        return null;
+        return Doctor.getDoctorByName(name);
     }
 
     /**
-     * @param location 
+     * @param location
      * @return
      */
-    public Doctor searchByLocation(String location) {
+    public ArrayList<Doctor> searchByLocation(String location) {
         // TODO implement here
-        return null;
+        return Doctor.getDoctorByLocation(location);
     }
 
     /**
-     * @param speicalization 
+     * @param specialization
      * @return
      */
-    public Doctor searchBySpecialisation(String speicalization) {
+    public ArrayList<Doctor> searchBySpecialisation(String specialization) {
         // TODO implement here
-        return null;
+        return Doctor.getDoctorBySpecialization(specialization);
     }
 
 }

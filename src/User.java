@@ -2,7 +2,7 @@
 import java.util.*;
 
 /**
- * 
+ *
  */
 public abstract class User {
 
@@ -11,67 +11,64 @@ public abstract class User {
      */
     public User() {
     }
-
-    /**
-     * 
-     */
+    
     private String userName;
-
-    /**
-     * 
-     */
     private String password;
-
-    /**
-     * 
-     */
     private RoleType role;
 
-
-
     /**
-     * @param username 
-     * @param password 
+     * @param userName
+     * @param password
      * @return
      */
-    public static Boolean login(String username, String password) {
+    public static RoleType login(String userName, String password) {
+        // TODO implement here
+        User u;
+        u = Patient.getObjectByuserName(userName);
+        if(u == null)
+        {
+            u = Doctor.getObjectByuserName(userName);
+        }
+        if (u == null){
+            return null;
+        }
+        else{
+            return u.getRole();
+        }           
+    }
+
+    /**
+     * @param userName
+     * @return
+     */
+    public static Boolean checkuserNameAvailability(String userName) {
         // TODO implement here
         return null;
     }
 
     /**
-     * @param username 
+     * @param userName
+     * @param password
+     * @param role
      * @return
      */
-    public static Boolean checkUserNameAvailability(String username) {
+    public User User(String userName, String password, RoleType role) {
         // TODO implement here
         return null;
     }
-
-    /**
-     * @param username 
-     * @param password 
-     * @param role 
-     * @return
-     */
-    public User User(String username, String password, RoleType role) {
-        // TODO implement here
-        return null;
-    }
-
     /**
      * @return
      */
-    public String getUserName() {
+    public String getuserName() {
         // TODO implement here
         return "";
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
-    public void setUserName(String value) {
+    public void setuserName(String value) {
         // TODO implement here
 
     }
@@ -85,7 +82,7 @@ public abstract class User {
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setPassword(String value) {
@@ -102,7 +99,7 @@ public abstract class User {
     }
 
     /**
-     * @param value 
+     * @param value
      * @return
      */
     public void setRole(RoleType value) {
